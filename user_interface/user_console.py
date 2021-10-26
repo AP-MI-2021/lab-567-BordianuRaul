@@ -1,5 +1,5 @@
-from Logic.crud import delete
-from Logic.general_logic import citire
+from Logic.crud import delete, update
+from Logic.general_logic import citire, citire_new_object
 
 
 def show_menu():
@@ -31,6 +31,12 @@ def console():
 
             id_obiect = int(input("Introduceti ID-ul obiectului pe care doriti sa il stergeti: "))
             lista_obiecte = delete(lista_obiecte, id_obiect)
+
+        elif optiune == '3':
+
+            id_obiect = int(input("Introduceti ID-ul obiectului pe care doriti sa il modificati: "))
+            new_object = citire_new_object(id_obiect)
+            lista_obiecte = update(lista_obiecte, new_object)
 
         elif optiune == '4':
 
