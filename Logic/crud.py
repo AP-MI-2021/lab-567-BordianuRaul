@@ -2,13 +2,28 @@ from Domain.object import get_new_object, get_id
 
 
 def create(lista_obiecte: list, _id: int, _nume: str, _descriere: str, _pret_achizitie: int, _locatie: str):
-
+    """
+    Concateneaza un obiect la lista de obiecte
+    :param lista_obiecte:
+    :param _id:
+    :param _nume:
+    :param _descriere:
+    :param _pret_achizitie:
+    :param _locatie:
+    :return: lista de obiecte cu noul element
+    """
     obiect = get_new_object(_id, _nume, _descriere, _pret_achizitie, _locatie)
 
     return lista_obiecte + [obiect]
 
 
 def read(lista_obiecte: list, id_obiect: int = None):
+    """
+    Returneaza obiectul caruia ii corespunde ID-ul transmis ca parametru
+    :param lista_obiecte:
+    :param id_obiect:
+    :return: obiectul
+    """
 
     obiect_gasit = None
 
@@ -23,6 +38,12 @@ def read(lista_obiecte: list, id_obiect: int = None):
 
 
 def update(lista_obiecte: list, new_object):
+    """
+    Modifica un element al listei
+    :param lista_obiecte:
+    :param new_object:
+    :return:
+    """
 
     result_list = []
 
@@ -36,6 +57,12 @@ def update(lista_obiecte: list, new_object):
 
 
 def delete(lista_obiecte: list, id_obiect: int):
+    """
+    Sterge un element al listei
+    :param lista_obiecte:
+    :param id_obiect:
+    :return:
+    """
 
     result_list = []
 
