@@ -1,4 +1,4 @@
-from Domain.object import get_new_object
+from Domain.object2 import get_new_object
 from Logic.crud import create
 
 

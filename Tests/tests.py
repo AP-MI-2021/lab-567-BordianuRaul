@@ -1,4 +1,4 @@
-from Domain.object import get_new_object, get_id
+from Domain.object2 import get_new_object, get_id
 from Logic.crud import create, read, update, delete
 
 
@@ -49,8 +49,9 @@ def test_delete():
     delete_object = read(lista, delete_id)
     lista_noua = delete(lista, delete_id)
 
-    assert len(lista_noua) == len(lista) -1
+    assert len(lista_noua) == len(lista)-1
     assert delete_object not in lista_noua
+
 
 def test_crud():
 
