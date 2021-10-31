@@ -1,4 +1,5 @@
 from Domain.object import get_new_object, get_object_string
+from Logic.concatenare_string import concat_str
 from Logic.crud import delete, update, create, read
 from Logic.move_objects import move_objects
 
@@ -75,6 +76,19 @@ def handle_move_objects(lista_obiecte):
     return lista_obiecte
 
 
+def handle_concat_str(lista_obiecte):
+
+    try:
+        add_descriere = input("Introduceti mesajul pe care doriti sa il adaugati descrierilor: ")
+        pret = int(input("Introduceti pretul: "))
+
+        lista_obiecte = concat_str(lista_obiecte, add_descriere, pret)
+    except ValueError as ve:
+        print("Eroare, nu ati introdus o valoare valida", ve)
+
+    return lista_obiecte
+
+
 def show_menu():
 
     print("""
@@ -82,6 +96,7 @@ def show_menu():
         2.Stergere obiect
         3.Modificare obiect
         4.Muta toate obiectele dintr-o locatie in alta
+        5.Concateneaza un string la toate descrierile obiectelor cu un pret mai mare decat o anumita valoare.
         S.Show all
         x.Iesire program
     """)
@@ -113,6 +128,10 @@ def console():
             elif optiune == '4':
 
                 handle_move_objects(lista_obiecte)
+
+            elif optiune == '5':
+
+                handle_concat_str(lista_obiecte)
 
             elif optiune == 'S':
 

@@ -1,4 +1,5 @@
 from Domain.object import get_new_object, get_id
+from Logic.concatenare_string import concat_str
 from Logic.crud import create, read, update, delete
 from Logic.move_objects import move_objects
 
@@ -90,6 +91,39 @@ def test_move_objects():
         get_new_object(1, 'cactus', 'decorativ', 10, 'DEPO'),
         get_new_object(2, 'minge', 'fotbal', 25, 'DEP7'),
         get_new_object(3, 'dulap', 'lemn de stejar', 2350, 'IKEA'),
+        get_new_object(4, 'orhidee', 'decorativ', 50, 'DEPO'),
+        get_new_object(5, 'masa', 'lemn de cires', 1500, 'IKEA')
+    ]
+
+
+def test_concat_str():
+
+    lista_obiecte = get_data()
+
+    assert concat_str(lista_obiecte, ' de vanzare', 10) == [
+        get_new_object(1, 'cactus', 'decorativ', 10, 'DEPO'),
+        get_new_object(2, 'minge', 'fotbal de vanzare', 25, 'AMnR'),
+        get_new_object(3, 'dulap', 'lemn de stejar de vanzare', 2350, 'IKEA'),
+        get_new_object(4, 'orhidee', 'decorativ de vanzare', 50, 'DEPO'),
+        get_new_object(5, 'masa', 'lemn de cires de vanzare', 1500, 'IKEA')
+    ]
+
+    lista_obiecte = get_data()
+
+    assert concat_str(lista_obiecte, ' va fi redus', 25) == [
+        get_new_object(1, 'cactus', 'decorativ', 10, 'DEPO'),
+        get_new_object(2, 'minge', 'fotbal', 25, 'AMnR'),
+        get_new_object(3, 'dulap', 'lemn de stejar va fi redus', 2350, 'IKEA'),
+        get_new_object(4, 'orhidee', 'decorativ va fi redus', 50, 'DEPO'),
+        get_new_object(5, 'masa', 'lemn de cires va fi redus', 1500, 'IKEA')
+    ]
+
+    lista_obiecte = get_data()
+
+    assert concat_str(lista_obiecte, " isi va pastra pretul", 1500) == [
+        get_new_object(1, 'cactus', 'decorativ', 10, 'DEPO'),
+        get_new_object(2, 'minge', 'fotbal', 25, 'AMnR'),
+        get_new_object(3, 'dulap', 'lemn de stejar isi va pastra pretul', 2350, 'IKEA'),
         get_new_object(4, 'orhidee', 'decorativ', 50, 'DEPO'),
         get_new_object(5, 'masa', 'lemn de cires', 1500, 'IKEA')
     ]
