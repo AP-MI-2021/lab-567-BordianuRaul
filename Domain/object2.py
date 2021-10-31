@@ -25,3 +25,9 @@ def get_pret_achizitie(lista_obiect):
 
 def get_locatie(lista_obiect):
     return lista_obiect[4]
+
+
+def get_object_string(obiect):
+    return f'Obiectul cu ID-ul: {get_id(obiect)}, numele: {get_nume(obiect)}, \
+    descrirea: {get_descriere(obiect)}, pretul de achizitie: {get_pret_achizitie(obiect)} \
+    , locatia: {get_locatie(obiect)}'

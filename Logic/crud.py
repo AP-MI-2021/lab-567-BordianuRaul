@@ -1,4 +1,4 @@
-from Domain.object2 import get_new_object, get_id
+from Domain.object import get_new_object, get_id, get_locatie
 
 
 def create(lista_obiecte: list, _id: int, _nume: str, _descriere: str, _pret_achizitie: int, _locatie: str):
@@ -13,6 +13,10 @@ def create(lista_obiecte: list, _id: int, _nume: str, _descriere: str, _pret_ach
     :return: lista de obiecte cu noul element
     """
     obiect = get_new_object(_id, _nume, _descriere, _pret_achizitie, _locatie)
+
+    if len(get_locatie(obiect)) != 4:
+
+        raise ValueError("Numele locatiei trebuie sa fie de exact 4 caractere!")
 
     return lista_obiecte + [obiect]
 

@@ -1,11 +1,11 @@
-from Domain.object2 import get_new_object, get_id
+from Domain.object import get_new_object, get_id
 from Logic.crud import create, read, update, delete
 
 
 def get_data():
     return [
         get_new_object(1, 'cactus', 'decorativ', 10, 'DEPO'),
-        get_new_object(2, 'minge', 'fotbal', 25, 'AMNR'),
+        get_new_object(2, 'minge', 'fotbal', 25, 'AMnR'),
         get_new_object(3, 'dulap', 'lemn de stejar', 2350, 'IKEA'),
         get_new_object(4, 'orhidee', 'decorativ', 50, 'DEPO'),
         get_new_object(5, 'masa', 'lemn de cires', 1500, 'IKEA')
