@@ -1,11 +1,14 @@
 from Domain.object import get_new_object, get_object_string
 from Logic.crud import delete, update, create, read
+from Logic.move_objects import move_objects
 
 
 def handle_create(lista_obiecte):
 
     try:
         id_obiect = int(input("Introduceti ID-ul obiectului: "))
+        if read(lista_obiecte, id_obiect) is not None:
+            raise ValueError("Exista deja un obiect cu acest ID!")
         nume = input("Introduceti numele obiectului: ")
         descriere = input("Introduceti descrierea obiectului: ")
         pret_achizitie = int(input("Introduceti pretul de achizitie al obiectlui: "))
@@ -59,13 +62,27 @@ def handle_show_all(lista_obiecte):
         print(get_object_string(obiect))
 
 
+def handle_move_objects(lista_obiecte):
+
+    initial_loc = input("Introduceti locatia din care doriti sa se mute obiectele: ")
+    new_loc = input("Introduceti locatia unde doriti sa se mute obiectele: ")
+
+    if len(initial_loc) != 4 or len(new_loc) != 4:
+        raise ValueError("Numele locatiei trebuie sa fie de exact 4 caractere!")
+
+    lista_obiecte = move_objects(lista_obiecte, initial_loc, new_loc)
+
+    return lista_obiecte
+
+
 def show_menu():
 
     print("""
         1.Adaugare obiect
         2.Stergere obiect
         3.Modificare obiect
-        4.Show all
+        4.Muta toate obiectele dintr-o locatie in alta
+        S.Show all
         x.Iesire program
     """)
 
@@ -94,6 +111,10 @@ def console():
                 handle_update(lista_obiecte)
 
             elif optiune == '4':
+
+                handle_move_objects(lista_obiecte)
+
+            elif optiune == 'S':
 
                 handle_show_all(lista_obiecte)
 

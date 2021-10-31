@@ -1,5 +1,6 @@
 from Domain.object import get_new_object, get_id
 from Logic.crud import create, read, update, delete
+from Logic.move_objects import move_objects
 
 
 def get_data():
@@ -59,3 +60,36 @@ def test_crud():
     test_read()
     test_update()
     test_delete()
+
+
+def test_move_objects():
+
+    lista_obiecte = get_data()
+
+    assert move_objects(lista_obiecte, 'DEPO', 'DEP7') == [
+        get_new_object(1, 'cactus', 'decorativ', 10, 'DEP7'),
+        get_new_object(2, 'minge', 'fotbal', 25, 'AMnR'),
+        get_new_object(3, 'dulap', 'lemn de stejar', 2350, 'IKEA'),
+        get_new_object(4, 'orhidee', 'decorativ', 50, 'DEP7'),
+        get_new_object(5, 'masa', 'lemn de cires', 1500, 'IKEA')
+    ]
+
+    lista_obiecte = get_data()
+
+    assert move_objects(lista_obiecte, 'IKEA', 'DEP7') == [
+        get_new_object(1, 'cactus', 'decorativ', 10, 'DEPO'),
+        get_new_object(2, 'minge', 'fotbal', 25, 'AMnR'),
+        get_new_object(3, 'dulap', 'lemn de stejar', 2350, 'DEP7'),
+        get_new_object(4, 'orhidee', 'decorativ', 50, 'DEPO'),
+        get_new_object(5, 'masa', 'lemn de cires', 1500, 'DEP7')
+    ]
+
+    lista_obiecte = get_data()
+
+    assert move_objects(lista_obiecte, 'AMnR', 'DEP7') == [
+        get_new_object(1, 'cactus', 'decorativ', 10, 'DEPO'),
+        get_new_object(2, 'minge', 'fotbal', 25, 'DEP7'),
+        get_new_object(3, 'dulap', 'lemn de stejar', 2350, 'IKEA'),
+        get_new_object(4, 'orhidee', 'decorativ', 50, 'DEPO'),
+        get_new_object(5, 'masa', 'lemn de cires', 1500, 'IKEA')
+    ]
