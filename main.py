@@ -1,10 +1,10 @@
 from Tests.tests import test_crud, test_move_objects, test_concat_str
-from user_interface.user_console import console
+from user_interface.user_console_2 import console_2
 
 
 def main():
 
-    console()
+    console_2()
 
 
 if __name__ == '__main__':
