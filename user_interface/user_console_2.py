@@ -148,6 +148,9 @@ def console_2():
 
                 elif lista_detalii_comanda[0] == "Iesire":
                     done = True
+                else:
+                    print("Nu ati introdus o comanda valida!"
+                          "Reincarcati.")
     except Exception as ex:
         print("Eroare, incercati din nou", ex)
 
