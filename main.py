@@ -1,13 +1,14 @@
-from Tests.tests import test_crud, test_move_objects, test_concat_str
-from user_interface.user_console_2 import console_2
+from Tests.tests import test_crud, test_move_objects, test_concat_str, test_biggest_price_for_every_location
+from user_interface.user_console import console
 
 
 def main():
 
-    console_2()
+    console()
 
 
 if __name__ == '__main__':
+    test_biggest_price_for_every_location()
     test_concat_str()
     test_move_objects()
     test_crud()

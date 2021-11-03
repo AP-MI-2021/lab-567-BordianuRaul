@@ -1,6 +1,6 @@
 
 
-def get_new_object(_id: int, _nume: str, _descriere: str, _pret_achizitie: int, _locatie: str):
+def get_new_object(_id: int, _nume: str, _descriere: str, _pret_achizitie: float, _locatie: str):
     """
     Creeaza un obiect
     :param _id:

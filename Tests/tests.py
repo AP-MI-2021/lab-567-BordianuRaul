@@ -1,4 +1,5 @@
 from Domain.object import get_new_object, get_id
+from Logic.biggest_price_for_every_location import biggest_price_for_every_location, create_new_entity
 from Logic.concatenare_string import concat_str
 from Logic.crud import create, read, update, delete
 from Logic.move_objects import move_objects
@@ -126,4 +127,15 @@ def test_concat_str():
         get_new_object(3, 'dulap', 'lemn de stejar isi va pastra pretul', 2350, 'IKEA'),
         get_new_object(4, 'orhidee', 'decorativ', 50, 'DEPO'),
         get_new_object(5, 'masa', 'lemn de cires', 1500, 'IKEA')
+    ]
+
+
+def test_biggest_price_for_every_location():
+
+    lista_obiecte = get_data()
+
+    assert biggest_price_for_every_location(lista_obiecte) == [
+        create_new_entity('DEPO', 50),
+        create_new_entity('AMnR', 25),
+        create_new_entity('IKEA', 2350)
     ]

@@ -1,7 +1,7 @@
 from Domain.object import get_new_object, get_id, get_locatie
 
 
-def create(lista_obiecte: list, _id: int, _nume: str, _descriere: str, _pret_achizitie: int, _locatie: str):
+def create(lista_obiecte: list, _id: int, _nume: str, _descriere: str, _pret_achizitie: float, _locatie: str):
     """
     Concateneaza un obiect la lista de obiecte
     :param lista_obiecte:

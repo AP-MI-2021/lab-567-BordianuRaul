@@ -1,7 +1,17 @@
-from Domain.object import get_new_object, get_object_string
+from Domain.object import get_new_object, get_object_string, get_locatie, get_pret_achizitie
+from Logic.biggest_price_for_every_location import biggest_price_for_every_location
 from Logic.concatenare_string import concat_str
 from Logic.crud import delete, update, create, read
 from Logic.move_objects import move_objects
+
+
+def handle_biggest_price_for_every_location(lista_obiecte):
+
+    biggest_prices = biggest_price_for_every_location(lista_obiecte)
+
+    for element in biggest_prices:
+
+        print(f'Cel mai mare pret pentru locatia {get_locatie(element)} este {get_pret_achizitie(element)}')
 
 
 def handle_create(lista_obiecte):
@@ -12,7 +22,7 @@ def handle_create(lista_obiecte):
             raise ValueError("Exista deja un obiect cu acest ID!")
         nume = input("Introduceti numele obiectului: ")
         descriere = input("Introduceti descrierea obiectului: ")
-        pret_achizitie = int(input("Introduceti pretul de achizitie al obiectlui: "))
+        pret_achizitie = float(input("Introduceti pretul de achizitie al obiectlui: "))
         locatie = input("Introduceti locatia obiectului: ")
         return create(lista_obiecte, id_obiect, nume, descriere, pret_achizitie, locatie)
     except ValueError as ve:
@@ -45,7 +55,7 @@ def handle_update(lista_obiecte):
             raise ValueError("Obiectul cu ID-ul introdus nu exista!")
         nume = input("Introduceti numele obiectului: ")
         descriere = input("Introduceti descrierea obiectului: ")
-        pret_achizitie = int(input("Introduceti pretul de achizitie al obiectlui: "))
+        pret_achizitie = float(input("Introduceti pretul de achizitie al obiectlui: "))
         locatie = input("Introduceti locatia obiectului: ")
 
         new_object = get_new_object(id_obiect, nume, descriere, pret_achizitie, locatie)
@@ -80,7 +90,7 @@ def handle_concat_str(lista_obiecte):
 
     try:
         add_descriere = input("Introduceti mesajul pe care doriti sa il adaugati descrierilor: ")
-        pret = int(input("Introduceti pretul: "))
+        pret = float(input("Introduceti pretul: "))
 
         lista_obiecte = concat_str(lista_obiecte, add_descriere, pret)
     except ValueError as ve:
@@ -97,7 +107,8 @@ def show_menu():
         3.Modificare obiect
         4.Muta toate obiectele dintr-o locatie in alta
         5.Concateneaza un string la toate descrierile obiectelor cu un pret mai mare decat o anumita valoare.
-        S.Show all
+        6.Determina cel mai mare pret pentru fiecare locatie
+        s.Show all
         x.Iesire program
     """)
 
@@ -119,21 +130,25 @@ def console():
 
             elif optiune == '2':
 
-                handle_delete(lista_obiecte)
+                lista_obiecte = handle_delete(lista_obiecte)
 
             elif optiune == '3':
 
-                handle_update(lista_obiecte)
+                lista_obiecte = handle_update(lista_obiecte)
 
             elif optiune == '4':
 
-                handle_move_objects(lista_obiecte)
+                lista_obiecte = handle_move_objects(lista_obiecte)
 
             elif optiune == '5':
 
-                handle_concat_str(lista_obiecte)
+                lista_obiecte = handle_concat_str(lista_obiecte)
 
-            elif optiune == 'S':
+            elif optiune == '6':
+
+                handle_biggest_price_for_every_location(lista_obiecte)
+
+            elif optiune == 's':
 
                 handle_show_all(lista_obiecte)
 
