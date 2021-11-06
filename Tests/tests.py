@@ -3,6 +3,7 @@ from Logic.biggest_price_for_every_location import biggest_price_for_every_locat
 from Logic.concatenare_string import concat_str
 from Logic.crud import create, read, update, delete
 from Logic.move_objects import move_objects
+from Logic.order_objects_ascending_by_price import order_objects
 
 
 def get_data():
@@ -138,4 +139,18 @@ def test_biggest_price_for_every_location():
         create_new_entity('DEPO', 50),
         create_new_entity('AMnR', 25),
         create_new_entity('IKEA', 2350)
+    ]
+
+
+def test_order_objects():
+
+    lista_obiecte = get_data()
+
+    assert order_objects(lista_obiecte) == [
+        get_new_object(1, 'cactus', 'decorativ', 10, 'DEPO'),
+        get_new_object(2, 'minge', 'fotbal', 25, 'AMnR'),
+        get_new_object(4, 'orhidee', 'decorativ', 50, 'DEPO'),
+        get_new_object(5, 'masa', 'lemn de cires', 1500, 'IKEA'),
+        get_new_object(3, 'dulap', 'lemn de stejar', 2350, 'IKEA')
+
     ]

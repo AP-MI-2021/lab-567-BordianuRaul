@@ -3,6 +3,12 @@ from Logic.biggest_price_for_every_location import biggest_price_for_every_locat
 from Logic.concatenare_string import concat_str
 from Logic.crud import delete, update, create, read
 from Logic.move_objects import move_objects
+from Logic.order_objects_ascending_by_price import order_objects
+
+
+def handle_order_objects(lista_obiecte):
+
+    return order_objects(lista_obiecte)
 
 
 def handle_biggest_price_for_every_location(lista_obiecte):
@@ -20,9 +26,21 @@ def handle_create(lista_obiecte):
         id_obiect = int(input("Introduceti ID-ul obiectului: "))
         if read(lista_obiecte, id_obiect) is not None:
             raise ValueError("Exista deja un obiect cu acest ID!")
+
         nume = input("Introduceti numele obiectului: ")
+
+        if not nume:
+            raise ValueError("Numele nu poate sa fie nul.")
+
         descriere = input("Introduceti descrierea obiectului: ")
+
+        if not descriere:
+            raise ValueError("Descrierea nu poate sa fie nula.")
+
         pret_achizitie = float(input("Introduceti pretul de achizitie al obiectlui: "))
+        if pret_achizitie < 0:
+            raise ValueError("Pretul nu poate fi negativ.")
+
         locatie = input("Introduceti locatia obiectului: ")
         return create(lista_obiecte, id_obiect, nume, descriere, pret_achizitie, locatie)
     except ValueError as ve:
@@ -51,11 +69,25 @@ def handle_update(lista_obiecte):
 
     try:
         id_obiect = int(input("Introduceti ID-ul obiectului pe care doriti sa il modificati: "))
+
         if read(lista_obiecte, id_obiect) is None:
             raise ValueError("Obiectul cu ID-ul introdus nu exista!")
+
         nume = input("Introduceti numele obiectului: ")
+
+        if not nume:
+            raise ValueError("Numele nu poate sa fie nul.")
+
         descriere = input("Introduceti descrierea obiectului: ")
+
+        if not descriere:
+            raise ValueError("Descrierea nu poate sa fie nula.")
+
         pret_achizitie = float(input("Introduceti pretul de achizitie al obiectlui: "))
+
+        if pret_achizitie < 0:
+            raise ValueError("Pretul nu poate fi negativ.")
+
         locatie = input("Introduceti locatia obiectului: ")
 
         new_object = get_new_object(id_obiect, nume, descriere, pret_achizitie, locatie)
@@ -108,6 +140,7 @@ def show_menu():
         4.Muta toate obiectele dintr-o locatie in alta
         5.Concateneaza un string la toate descrierile obiectelor cu un pret mai mare decat o anumita valoare.
         6.Determina cel mai mare pret pentru fiecare locatie
+        7.Ordoneaza obiectele crescator dupa pret
         s.Show all
         x.Iesire program
     """)
@@ -148,6 +181,10 @@ def console():
 
                 handle_biggest_price_for_every_location(lista_obiecte)
 
+            elif optiune == '7':
+
+                lista_obiecte = handle_order_objects(lista_obiecte)
+
             elif optiune == 's':
 
                 handle_show_all(lista_obiecte)
@@ -159,4 +196,4 @@ def console():
                 print("Optiune invalida!")
 
         except Exception as ex:
-            print("Eroare", ex)
+            print("Eroare, nu ati introdus o valoare valida!", ex)
