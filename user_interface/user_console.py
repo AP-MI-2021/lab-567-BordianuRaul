@@ -7,6 +7,26 @@ from Logic.order_objects_ascending_by_price import order_objects
 from Logic.sum_of_prices_for_every_location import prices_sum_for_every_location
 
 
+def handle_new_list(versions_list, curent_version, lista_obiecte):
+
+    while curent_version < len(versions_list) - 1:
+        versions_list.pop()
+
+    versions_list.append(lista_obiecte)
+    curent_version += 1
+
+    return versions_list, curent_version
+
+
+def handle_undo(versions_list, curent_version):
+
+    if curent_version < 1:
+        raise ValueError("Nu se mai poate face undo.")
+
+    curent_version -= 1
+    return versions_list[curent_version], curent_version
+
+
 def handle_sum_of_prices_for_every_location(lista_obiecte):
 
     list_sum_of_prices = prices_sum_for_every_location(lista_obiecte)
@@ -152,6 +172,7 @@ def show_menu():
         6.Determina cel mai mare pret pentru fiecare locatie
         7.Ordoneaza obiectele crescator dupa pret
         8.Determina suma preturilor pentru fiecare locatie
+        9.Undo
         s.Show all
         x.Iesire program
     """)
@@ -159,6 +180,8 @@ def show_menu():
 
 def console():
 
+    curent_version = 0
+    versions_list = []
     lista_obiecte = []
 
     while True:
@@ -171,22 +194,27 @@ def console():
             if optiune == '1':
 
                 lista_obiecte = handle_create(lista_obiecte)
+                versions_list, curent_version = handle_new_list(versions_list, curent_version, lista_obiecte)
 
             elif optiune == '2':
 
                 lista_obiecte = handle_delete(lista_obiecte)
+                versions_list, curent_version = handle_new_list(versions_list, curent_version, lista_obiecte)
 
             elif optiune == '3':
 
                 lista_obiecte = handle_update(lista_obiecte)
+                versions_list, curent_version = handle_new_list(versions_list, curent_version, lista_obiecte)
 
             elif optiune == '4':
 
                 lista_obiecte = handle_move_objects(lista_obiecte)
+                versions_list, curent_version = handle_new_list(versions_list, curent_version, lista_obiecte)
 
             elif optiune == '5':
 
                 lista_obiecte = handle_concat_str(lista_obiecte)
+                versions_list, curent_version = handle_new_list(versions_list, curent_version, lista_obiecte)
 
             elif optiune == '6':
 
@@ -195,10 +223,15 @@ def console():
             elif optiune == '7':
 
                 lista_obiecte = handle_order_objects(lista_obiecte)
+                versions_list, curent_version = handle_new_list(versions_list, curent_version, lista_obiecte)
 
             elif optiune == '8':
 
                 handle_sum_of_prices_for_every_location(lista_obiecte)
+
+            elif optiune == '9':
+
+                lista_obiecte, curent_version = handle_undo(versions_list, curent_version)
 
             elif optiune == 's':
 
