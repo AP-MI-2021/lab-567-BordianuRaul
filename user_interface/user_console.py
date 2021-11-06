@@ -4,6 +4,16 @@ from Logic.concatenare_string import concat_str
 from Logic.crud import delete, update, create, read
 from Logic.move_objects import move_objects
 from Logic.order_objects_ascending_by_price import order_objects
+from Logic.sum_of_prices_for_every_location import prices_sum_for_every_location
+
+
+def handle_sum_of_prices_for_every_location(lista_obiecte):
+
+    list_sum_of_prices = prices_sum_for_every_location(lista_obiecte)
+
+    for element in list_sum_of_prices:
+
+        print(f'Suma preturilor pentru locatia {get_locatie(element)} este {get_pret_achizitie(element)}')
 
 
 def handle_order_objects(lista_obiecte):
@@ -141,6 +151,7 @@ def show_menu():
         5.Concateneaza un string la toate descrierile obiectelor cu un pret mai mare decat o anumita valoare.
         6.Determina cel mai mare pret pentru fiecare locatie
         7.Ordoneaza obiectele crescator dupa pret
+        8.Determina suma preturilor pentru fiecare locatie
         s.Show all
         x.Iesire program
     """)
@@ -184,6 +195,10 @@ def console():
             elif optiune == '7':
 
                 lista_obiecte = handle_order_objects(lista_obiecte)
+
+            elif optiune == '8':
+
+                handle_sum_of_prices_for_every_location(lista_obiecte)
 
             elif optiune == 's':
 

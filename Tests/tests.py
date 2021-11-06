@@ -4,6 +4,7 @@ from Logic.concatenare_string import concat_str
 from Logic.crud import create, read, update, delete
 from Logic.move_objects import move_objects
 from Logic.order_objects_ascending_by_price import order_objects
+from Logic.sum_of_prices_for_every_location import create_location_price, prices_sum_for_every_location
 
 
 def get_data():
@@ -153,4 +154,15 @@ def test_order_objects():
         get_new_object(5, 'masa', 'lemn de cires', 1500, 'IKEA'),
         get_new_object(3, 'dulap', 'lemn de stejar', 2350, 'IKEA')
 
+    ]
+
+
+def test_prices_sum_for_every_location():
+
+    lista_obiecte = get_data()
+
+    assert prices_sum_for_every_location(lista_obiecte) == [
+        create_location_price('DEPO', 60),
+        create_location_price('AMnR', 25),
+        create_location_price('IKEA', 3850)
     ]
