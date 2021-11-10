@@ -5,7 +5,8 @@ from user_interface.user_console import console
 
 def main():
 
-    console()
+    lista = []
+    console(lista)
 
 
 if __name__ == '__main__':

@@ -7,6 +7,16 @@ from Logic.order_objects_ascending_by_price import order_objects
 from Logic.sum_of_prices_for_every_location import prices_sum_for_every_location
 
 
+def handle_redo(versions_list, curent_version):
+
+    if curent_version >= len(versions_list) - 1:
+        raise ValueError("Nu se mai poate face redo!")
+
+    curent_version += 1
+
+    return versions_list[curent_version], curent_version
+
+
 def handle_new_list(versions_list, curent_version, lista_obiecte):
 
     while curent_version < len(versions_list) - 1:
@@ -21,7 +31,7 @@ def handle_new_list(versions_list, curent_version, lista_obiecte):
 def handle_undo(versions_list, curent_version):
 
     if curent_version < 1:
-        raise ValueError("Nu se mai poate face undo.")
+        raise ValueError("Nu se mai poate face undo!")
 
     curent_version -= 1
     return versions_list[curent_version], curent_version
@@ -173,16 +183,17 @@ def show_menu():
         7.Ordoneaza obiectele crescator dupa pret
         8.Determina suma preturilor pentru fiecare locatie
         9.Undo
+        10.Redo
         s.Show all
         x.Iesire program
     """)
 
 
-def console():
+def console(lista):
 
-    curent_version = 0
-    versions_list = []
     lista_obiecte = []
+    curent_version = 0
+    versions_list = [lista]
 
     while True:
 
@@ -232,6 +243,10 @@ def console():
             elif optiune == '9':
 
                 lista_obiecte, curent_version = handle_undo(versions_list, curent_version)
+
+            elif optiune == '10':
+
+                lista_obiecte, curent_version = handle_redo(versions_list, curent_version)
 
             elif optiune == 's':
 

@@ -5,6 +5,7 @@ from Logic.crud import create, read, update, delete
 from Logic.move_objects import move_objects
 from Logic.order_objects_ascending_by_price import order_objects
 from Logic.sum_of_prices_for_every_location import create_location_price, prices_sum_for_every_location
+from user_interface.user_console import handle_undo, handle_redo
 
 
 def get_data():
@@ -165,4 +166,131 @@ def test_prices_sum_for_every_location():
         create_location_price('DEPO', 60),
         create_location_price('AMnR', 25),
         create_location_price('IKEA', 3850)
+    ]
+
+
+def test_undo_redo():
+
+    lista_obiecte = []
+    version_list = [lista_obiecte]
+    curent_version = 0
+    lista_obiecte = create(lista_obiecte, 1, 'cactus', 'decorativ', 10, 'DEPO')
+    version_list.append(lista_obiecte)
+    curent_version += 1
+
+    lista_obiecte = create(lista_obiecte, 2, 'minge', 'fotbal', 25, 'AMnR')
+    version_list.append(lista_obiecte)
+    curent_version += 1
+
+    lista_obiecte = create(lista_obiecte, 3, 'dulap', 'lemn de stejar', 2350, 'IKEA')
+    version_list.append(lista_obiecte)
+    curent_version += 1
+
+    assert handle_undo(version_list, curent_version) == [
+        get_new_object(1, 'cactus', 'decorativ', 10, 'DEPO'),
+        get_new_object(2, 'minge', 'fotbal', 25, 'AMnR')
+    ]
+    assert handle_undo(version_list, curent_version) == [
+        get_new_object(1, 'cactus', 'decorativ', 10, 'DEPO')
+        ]
+    assert handle_undo(version_list, curent_version) == []
+
+    assert handle_undo(version_list, curent_version)
+
+    lista_obiecte = []
+    version_list = [lista_obiecte]
+    curent_version = 0
+    lista_obiecte = [
+        get_new_object(1, 'cactus', 'decorativ', 10, 'DEPO')
+    ]
+    version_list.append(lista_obiecte)
+    curent_version += 1
+
+    lista_obiecte = [
+        get_new_object(2, 'minge', 'fotbal', 25, 'AMnR')
+    ]
+
+    version_list.append(lista_obiecte)
+    curent_version += 1
+
+    lista_obiecte = [
+        get_new_object(3, 'dulap', 'lemn de stejar', 2350, 'IKEA')
+    ]
+    version_list.append(lista_obiecte)
+    curent_version += 1
+
+    assert handle_redo(version_list, curent_version) == [
+
+        get_new_object(1, 'cactus', 'decorativ', 10, 'DEPO'),
+        get_new_object(2, 'minge', 'fotbal', 25, 'AMnR'),
+        get_new_object(3, 'dulap', 'lemn de stejar', 2350, 'IKEA')
+
+    ]
+
+    assert handle_undo(version_list, curent_version) == [
+
+        get_new_object(1, 'cactus', 'decorativ', 10, 'DEPO'),
+        get_new_object(2, 'minge', 'fotbal', 25, 'AMnR'),
+
+    ]
+
+    assert handle_undo(version_list, curent_version) == [
+
+        get_new_object(1, 'cactus', 'decorativ', 10, 'DEPO')
+
+    ]
+
+    assert handle_redo(version_list, curent_version) == [
+
+        get_new_object(1, 'cactus', 'decorativ', 10, 'DEPO'),
+        get_new_object(2, 'minge', 'fotbal', 25, 'AMnR')
+
+    ]
+
+    assert handle_redo(version_list, curent_version) == [
+
+        get_new_object(1, 'cactus', 'decorativ', 10, 'DEPO'),
+        get_new_object(2, 'minge', 'fotbal', 25, 'AMnR'),
+        get_new_object(3, 'dulap', 'lemn de stejar', 2350, 'IKEA')
+
+    ]
+
+    assert handle_undo(version_list, curent_version) == [
+
+        get_new_object(1, 'cactus', 'decorativ', 10, 'DEPO'),
+        get_new_object(2, 'minge', 'fotbal', 25, 'AMnR'),
+
+    ]
+
+    assert handle_undo(version_list, curent_version) == [
+
+        get_new_object(1, 'cactus', 'decorativ', 10, 'DEPO')
+
+    ]
+
+    lista_obiecte = create(lista_obiecte, 4, 'orhidee', 'decorativ', 50, 'DEPO')
+
+    assert handle_redo(version_list, curent_version)
+
+    assert handle_undo(version_list, curent_version) == [
+
+        get_new_object(1, 'cactus', 'decorativ', 10, 'DEPO')
+    ]
+
+    assert handle_undo(version_list, curent_version) == []
+
+    assert handle_redo(version_list, curent_version) == [
+
+        get_new_object(1, 'cactus', 'decorativ', 10, 'DEPO')
+    ]
+
+    assert handle_redo(version_list, curent_version) == [
+
+        get_new_object(1, 'cactus', 'decorativ', 10, 'DEPO'),
+        get_new_object(4, 'orhidee', 'decorativ', 50, 'DEPO')
+    ]
+
+    assert handle_redo(version_list, curent_version) == [
+        get_new_object(1, 'cactus', 'decorativ', 10, 'DEPO'),
+        get_new_object(4, 'orhidee', 'decorativ', 50, 'DEPO')
     ]
