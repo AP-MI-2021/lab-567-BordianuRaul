@@ -1,4 +1,4 @@
-from Domain.object import get_pret_achizitie
+from Domain.object import get_pret_achizitie, get_descriere, get_id, get_nume, get_new_object, get_locatie
 
 
 def concat_str(lista_obiecte, add_descriere, pret):
@@ -11,9 +11,21 @@ def concat_str(lista_obiecte, add_descriere, pret):
     :return:lista de obiecte cu descrierile modificate
     """
 
+    result = []
+
     for obiect in lista_obiecte:
 
         if get_pret_achizitie(obiect) > pret:
-            obiect['descriere'] = obiect['descriere'] + add_descriere
 
-    return lista_obiecte
+            result.append(get_new_object(
+                get_id(obiect),
+                get_nume(obiect),
+                get_descriere(obiect) + add_descriere,
+                get_pret_achizitie(obiect),
+                get_locatie(obiect)
+            )
+            )
+        else:
+            result.append(obiect)
+
+    return result

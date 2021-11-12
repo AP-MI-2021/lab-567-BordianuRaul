@@ -8,4 +8,6 @@ def order_objects(lista_obiecte):
     :return: lista sortata
     """
 
-    return sorted(lista_obiecte, key=get_pret_achizitie)
+    result = sorted(lista_obiecte, key=get_pret_achizitie)
+
+    return result

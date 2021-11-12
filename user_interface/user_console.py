@@ -9,8 +9,9 @@ from Logic.sum_of_prices_for_every_location import prices_sum_for_every_location
 
 def handle_redo(versions_list, curent_version):
 
-    if curent_version >= len(versions_list) - 1:
-        raise ValueError("Nu se mai poate face redo!")
+    if curent_version == len(versions_list) - 1:
+        print("Nu se mai poate face redo!")
+        return None
 
     curent_version += 1
 
@@ -31,7 +32,9 @@ def handle_new_list(versions_list, curent_version, lista_obiecte):
 def handle_undo(versions_list, curent_version):
 
     if curent_version < 1:
-        raise ValueError("Nu se mai poate face undo!")
+        print("Nu se mai poate face undo!")
+        return None
+
 
     curent_version -= 1
     return versions_list[curent_version], curent_version

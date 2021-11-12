@@ -5,7 +5,7 @@ from Logic.crud import create, read, update, delete
 from Logic.move_objects import move_objects
 from Logic.order_objects_ascending_by_price import order_objects
 from Logic.sum_of_prices_for_every_location import create_location_price, prices_sum_for_every_location
-from user_interface.user_console import handle_undo, handle_redo
+from user_interface.user_console import handle_new_list, handle_undo, handle_redo
 
 
 def get_data():
@@ -171,126 +171,112 @@ def test_prices_sum_for_every_location():
 
 def test_undo_redo():
 
+    # 1
     lista_obiecte = []
-    version_list = [lista_obiecte]
     curent_version = 0
+    versions_list = [lista_obiecte]
+
+    # 2
     lista_obiecte = create(lista_obiecte, 1, 'cactus', 'decorativ', 10, 'DEPO')
-    version_list.append(lista_obiecte)
-    curent_version += 1
+    versions_list, curent_version = handle_new_list(versions_list, curent_version, lista_obiecte)
+
+    # 3
+    lista_obiecte = create(lista_obiecte, 2, 'minge', 'fotbal', 25, 'AMnR')
+    versions_list, curent_version = handle_new_list(versions_list, curent_version, lista_obiecte)
+
+    # 4
+    lista_obiecte = create(lista_obiecte, 3, 'dulap', 'lemn de stejar', 2350, 'IKEA')
+    versions_list, curent_version = handle_new_list(versions_list, curent_version, lista_obiecte)
+
+    # 5
+    lista_obiecte, curent_version = handle_undo(versions_list, curent_version)
+
+    assert len(lista_obiecte) == 2
+
+    # 6
+    lista_obiecte, curent_version = handle_undo(versions_list, curent_version)
+
+    assert len(lista_obiecte) == 1
+
+    # 7
+    lista_obiecte, curent_version = handle_undo(versions_list, curent_version)
+
+    assert len(lista_obiecte) == 0
+
+    # 8
+
+    assert handle_undo(versions_list, curent_version) is None
+
+    # 9
+    lista_obiecte = create(lista_obiecte, 1, 'cactus', 'decorativ', 10, 'DEPO')
+    versions_list, curent_version = handle_new_list(versions_list, curent_version, lista_obiecte)
 
     lista_obiecte = create(lista_obiecte, 2, 'minge', 'fotbal', 25, 'AMnR')
-    version_list.append(lista_obiecte)
-    curent_version += 1
+    versions_list, curent_version = handle_new_list(versions_list, curent_version, lista_obiecte)
 
     lista_obiecte = create(lista_obiecte, 3, 'dulap', 'lemn de stejar', 2350, 'IKEA')
-    version_list.append(lista_obiecte)
-    curent_version += 1
+    versions_list, curent_version = handle_new_list(versions_list, curent_version, lista_obiecte)
 
-    assert handle_undo(version_list, curent_version) == [
-        get_new_object(1, 'cactus', 'decorativ', 10, 'DEPO'),
-        get_new_object(2, 'minge', 'fotbal', 25, 'AMnR')
-    ]
-    assert handle_undo(version_list, curent_version) == [
-        get_new_object(1, 'cactus', 'decorativ', 10, 'DEPO')
-        ]
-    assert handle_undo(version_list, curent_version) == []
+    # 10
+    assert handle_redo(versions_list, curent_version) is None
 
-    assert handle_undo(version_list, curent_version)
+    # 11
+    lista_obiecte, curent_version = handle_undo(versions_list, curent_version)
 
-    lista_obiecte = []
-    version_list = [lista_obiecte]
-    curent_version = 0
-    lista_obiecte = [
-        get_new_object(1, 'cactus', 'decorativ', 10, 'DEPO')
-    ]
-    version_list.append(lista_obiecte)
-    curent_version += 1
+    assert len(lista_obiecte) == 2
 
-    lista_obiecte = [
-        get_new_object(2, 'minge', 'fotbal', 25, 'AMnR')
-    ]
+    lista_obiecte, curent_version = handle_undo(versions_list, curent_version)
 
-    version_list.append(lista_obiecte)
-    curent_version += 1
+    assert len(lista_obiecte) == 1
 
-    lista_obiecte = [
-        get_new_object(3, 'dulap', 'lemn de stejar', 2350, 'IKEA')
-    ]
-    version_list.append(lista_obiecte)
-    curent_version += 1
+    # 12
+    lista_obiecte, curent_version = handle_redo(versions_list, curent_version)
 
-    assert handle_redo(version_list, curent_version) == [
+    assert len(lista_obiecte) == 2
 
-        get_new_object(1, 'cactus', 'decorativ', 10, 'DEPO'),
-        get_new_object(2, 'minge', 'fotbal', 25, 'AMnR'),
-        get_new_object(3, 'dulap', 'lemn de stejar', 2350, 'IKEA')
+    # 13
+    lista_obiecte, curent_version = handle_redo(versions_list, curent_version)
 
-    ]
+    assert len(lista_obiecte) == 3
 
-    assert handle_undo(version_list, curent_version) == [
+    # 14
+    lista_obiecte, curent_version = handle_undo(versions_list, curent_version)
 
-        get_new_object(1, 'cactus', 'decorativ', 10, 'DEPO'),
-        get_new_object(2, 'minge', 'fotbal', 25, 'AMnR'),
+    assert len(lista_obiecte) == 2
 
-    ]
+    lista_obiecte, curent_version = handle_undo(versions_list, curent_version)
 
-    assert handle_undo(version_list, curent_version) == [
+    assert len(lista_obiecte) == 1
 
-        get_new_object(1, 'cactus', 'decorativ', 10, 'DEPO')
-
-    ]
-
-    assert handle_redo(version_list, curent_version) == [
-
-        get_new_object(1, 'cactus', 'decorativ', 10, 'DEPO'),
-        get_new_object(2, 'minge', 'fotbal', 25, 'AMnR')
-
-    ]
-
-    assert handle_redo(version_list, curent_version) == [
-
-        get_new_object(1, 'cactus', 'decorativ', 10, 'DEPO'),
-        get_new_object(2, 'minge', 'fotbal', 25, 'AMnR'),
-        get_new_object(3, 'dulap', 'lemn de stejar', 2350, 'IKEA')
-
-    ]
-
-    assert handle_undo(version_list, curent_version) == [
-
-        get_new_object(1, 'cactus', 'decorativ', 10, 'DEPO'),
-        get_new_object(2, 'minge', 'fotbal', 25, 'AMnR'),
-
-    ]
-
-    assert handle_undo(version_list, curent_version) == [
-
-        get_new_object(1, 'cactus', 'decorativ', 10, 'DEPO')
-
-    ]
+    # 15
 
     lista_obiecte = create(lista_obiecte, 4, 'orhidee', 'decorativ', 50, 'DEPO')
+    versions_list, curent_version = handle_new_list(versions_list, curent_version, lista_obiecte)
 
-    assert handle_redo(version_list, curent_version)
+    assert len(lista_obiecte) == 2
 
-    assert handle_undo(version_list, curent_version) == [
+    # 16
+    assert handle_redo(versions_list, curent_version) is None
 
-        get_new_object(1, 'cactus', 'decorativ', 10, 'DEPO')
-    ]
+    # 17
+    lista_obiecte, curent_version = handle_undo(versions_list, curent_version)
 
-    assert handle_undo(version_list, curent_version) == []
+    assert len(lista_obiecte) == 1
 
-    assert handle_redo(version_list, curent_version) == [
+    # 18
+    lista_obiecte, curent_version = handle_undo(versions_list, curent_version)
 
-        get_new_object(1, 'cactus', 'decorativ', 10, 'DEPO')
-    ]
+    assert len(lista_obiecte) == 0
 
-    assert handle_redo(version_list, curent_version) == [
+    # 19
+    lista_obiecte, curent_version = handle_redo(versions_list, curent_version)
 
-        get_new_object(1, 'cactus', 'decorativ', 10, 'DEPO'),
-        get_new_object(4, 'orhidee', 'decorativ', 50, 'DEPO')
-    ]
+    assert len(lista_obiecte) == 1
 
-    assert handle_redo(version_list, curent_version) == [
-        get_new_object(1, 'cactus', 'decorativ', 10, 'DEPO'),
-        get_new_object(4, 'orhidee', 'decorativ', 50, 'DEPO')
-    ]
+    lista_obiecte, curent_version = handle_redo(versions_list, curent_version)
+
+    assert len(lista_obiecte) == 2
+
+    # 20
+
+    assert handle_redo(versions_list, curent_version) is None
